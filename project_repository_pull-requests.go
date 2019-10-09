@@ -87,7 +87,6 @@ func (bc *BitClient) CreatePullRequest(projectKey string, repositorySlug string,
 		params,
 		nil,
 	)
-
 	return err
 }
 
