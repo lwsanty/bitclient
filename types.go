@@ -28,14 +28,14 @@ type Project struct {
 }
 
 type Repository struct {
-	Slug          string
-	Id            uint
-	Name          string
+	Slug          string `json:"slug,omitempty"`
+	Id            uint   `json:"id,omitempty"`
+	Name          string `json:"name,omitempty"`
 	ScmId         string
 	State         string
 	StatusMessage string
 	Forkable      bool
-	Project       Project
+	Project       Project `json:"project,omitempty"`
 	Public        bool
 	Links         Links
 }
@@ -103,9 +103,9 @@ type Author struct {
 }
 
 type Participant struct {
-	User               User
+	User               User `json:"user"`
 	LastReviewedCommit string
-	Role               string
+	Role               string `json:"role,omitempty"`
 	Approved           bool
 	Status             string
 }
