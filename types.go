@@ -314,3 +314,30 @@ type YaccHookSettings struct {
 	ExcludeServiceUserCommits      bool   `json:"excludeServiceUserCommits,omitempty"`
 	ExcludeUsers                   string `json:"excludeUsers,omitempty"`
 }
+
+type CreatePullRequestParams struct {
+	Title             string        `json:"title"`
+	Description       string        `json:"description"`
+	FromRef           BranchRef     `json:"fromRef"`
+	ToRef             BranchRef     `json:"toRef"`
+	Reviewers         []Participant `json:"reviewers"`
+	CloseSourceBranch bool          `json:"close_source_branch"`
+}
+
+type BranchRef struct {
+	Id         string     `json:"id"`
+	Repository Repository `json:"repository"`
+}
+
+type CreatePullRequestCommentParams struct {
+	Text   string                                `json:"text"`
+	Parent *CreatePullRequestCommentParentParams `json:"parent,omitempty"`
+}
+
+type CreatePullRequestCommentParentParams struct {
+	Id int `json:"id"`
+}
+
+type IdResponse struct {
+	Id int `json:"id"`
+}

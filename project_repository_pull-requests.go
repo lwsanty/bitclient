@@ -67,62 +67,24 @@ func (bc *BitClient) GetPullRequests(projectKey string, repositorySlug string, p
 	return *response, err
 }
 
-type CreatePullRequestParams struct {
-	Title             string        `json:"title"`
-	Description       string        `json:"description"`
-	FromRef           BranchRef     `json:"fromRef"`
-	ToRef             BranchRef     `json:"toRef"`
-	Reviewers         []Participant `json:"reviewers"`
-	CloseSourceBranch bool          `json:"close_source_branch"`
-}
+func (bc *BitClient) CreatePullRequest(projectKey string, repositorySlug string, params CreatePullRequestParams) (IdResponse, error) {
+	response := new(IdResponse)
 
-type BranchRef struct {
-	Id         string     `json:"id"`
-	Repository Repository `json:"repository"`
-}
-
-func (bc *BitClient) CreatePullRequest(projectKey string, repositorySlug string, params CreatePullRequestParams) error {
 	_, err := bc.DoPost(
 		fmt.Sprintf("/projects/%s/repos/%s/pull-requests", projectKey, repositorySlug),
 		params,
-		nil,
+		response,
 	)
-
-	return err
+	return *response, err
 }
 
-// pull-request data example
-/*
-{
-  "title": "put some title1",
-  "description": "put some desc",
-  "fromRef": {
-    "id": "harshil-goel/searchable-search",
-    "repository": {
-      "slug": "dgraph",
-      "name": null,
-      "project": {
-        "key": "JOH"
-      }
-    }
-  },
-  "toRef": {
-    "id": "master",
-    "repository": {
-      "slug": "dgraph",
-      "name": null,
-      "project": {
-        "key": "JOH"
-      }
-    }
-  },
-  "reviewers": [
-    {
-      "user": {
-        "name": "johnny"
-      }
-    }
-  ],
-  "close_source_branch": false
+func (bc *BitClient) CreatePullRequestComment(projectKey, repositorySlug, prId string, params CreatePullRequestCommentParams) (IdResponse, error) {
+	response := new(IdResponse)
+
+	_, err := bc.DoPost(
+		fmt.Sprintf("/projects/%s/repos/%s/pull-requests/%s/comments", projectKey, repositorySlug, prId),
+		params,
+		response,
+	)
+	return *response, err
 }
-*/
